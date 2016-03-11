@@ -49,6 +49,10 @@ static const CGFloat kYSLScrollMenuViewHeight = 40;
     [super didReceiveMemoryWarning];
 }
 
+-(void)setStartIndex:(int)startIndex{
+    _startIndex = (startIndex < self.childControllers.count) ? startIndex : 0;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -58,7 +62,7 @@ static const CGFloat kYSLScrollMenuViewHeight = 40;
     
     // ContentScrollview setup
     _contentScrollView = [[UIScrollView alloc]init];
-    _contentScrollView.frame = CGRectMake(0,_topBarHeight + kYSLScrollMenuViewHeight, self.view.frame.size.width, self.view.frame.size.height - (_topBarHeight + kYSLScrollMenuViewHeight));
+    _contentScrollView.frame = CGRectMake(0,_topBarHeight, self.view.frame.size.width, self.view.frame.size.height - _topBarHeight);
     _contentScrollView.backgroundColor = [UIColor clearColor];
     _contentScrollView.pagingEnabled = YES;
     _contentScrollView.delegate = self;
@@ -88,10 +92,10 @@ static const CGFloat kYSLScrollMenuViewHeight = 40;
     _menuView.itemIndicatorColor = self.menuIndicatorColor;
     _menuView.scrollView.scrollsToTop = NO;
     [_menuView setItemTitleArray:self.titles];
-    [self.view addSubview:_menuView];
-    [_menuView setShadowView];
+    self.parentViewController.navigationItem.titleView = _menuView;
     
-    [self scrollMenuViewSelectedIndex:0];
+    [self scrollMenuViewSelectedIndex:self.startIndex];
+    [_menuView setIndicatorOnIndex:self.startIndex];
 }
 
 #pragma mark -- private

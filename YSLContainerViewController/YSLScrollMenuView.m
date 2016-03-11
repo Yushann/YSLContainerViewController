@@ -8,7 +8,7 @@
 
 #import "YSLScrollMenuView.h"
 
-static const CGFloat kYSLScrollMenuViewWidth  = 90;
+static const CGFloat kYSLScrollMenuViewWidth  = 60;
 static const CGFloat kYSLScrollMenuViewMargin = 10;
 static const CGFloat kYSLIndicatorHeight = 3;
 
@@ -29,8 +29,9 @@ static const CGFloat kYSLIndicatorHeight = 3;
         // default
         _viewbackgroudColor = [UIColor whiteColor];
         _itemfont = [UIFont systemFontOfSize:16];
-        _itemTitleColor = [UIColor colorWithRed:0.866667 green:0.866667 blue:0.866667 alpha:1.0];
-        _itemSelectedTitleColor = [UIColor colorWithRed:0.333333 green:0.333333 blue:0.333333 alpha:1.0];
+        _itemTitleColor = [UIColor lightGrayColor];
+        _itemSelectedTitleColor = [UIColor darkGrayColor];
+        //底線的顏色
         _itemIndicatorColor = [UIColor colorWithRed:0.168627 green:0.498039 blue:0.839216 alpha:1.0];
         
         self.backgroundColor = _viewbackgroudColor;
@@ -92,6 +93,16 @@ static const CGFloat kYSLIndicatorHeight = 3;
             itemView.textAlignment = NSTextAlignmentCenter;
             itemView.font = self.itemfont;
             itemView.textColor = _itemTitleColor;
+            
+            //add left border except first label
+            if (i != 0) {
+                CALayer *border = [CALayer layer];
+                border.backgroundColor = _itemTitleColor.CGColor;
+                
+                border.frame = CGRectMake(-(kYSLScrollMenuViewMargin/2), kYSLScrollMenuViewMargin, 1, itemView.frame.size.height - kYSLScrollMenuViewMargin *2);
+                [itemView.layer addSublayer:border];
+            }
+            
             [views addObject:itemView];
             
             UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(itemViewTapAction:)];
@@ -126,6 +137,10 @@ static const CGFloat kYSLIndicatorHeight = 3;
     //  NSLog(@"retio : %f",_indicatorView.frame.origin.x);
 }
 
+-(void)setIndicatorOnIndex:(NSInteger)index{
+    _indicatorView.frame = CGRectMake((index * kYSLScrollMenuViewWidth + (index+1)*kYSLScrollMenuViewMargin), _scrollView.frame.size.height - kYSLIndicatorHeight, kYSLScrollMenuViewWidth, kYSLIndicatorHeight);
+}
+
 - (void)setItemTextColor:(UIColor *)itemTextColor
     seletedItemTextColor:(UIColor *)selectedItemTextColor
             currentIndex:(NSInteger)currentIndex
@@ -137,14 +152,8 @@ static const CGFloat kYSLIndicatorHeight = 3;
         UILabel *label = self.itemViewArray[i];
         if (i == currentIndex) {
             label.alpha = 0.0;
-            [UIView animateWithDuration:0.75
-                                  delay:0.0
-                                options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
-                             animations:^{
-                                 label.alpha = 1.0;
-                                 label.textColor = _itemSelectedTitleColor;
-                             } completion:^(BOOL finished) {
-                             }];
+            label.alpha = 1.0;
+            label.textColor = _itemSelectedTitleColor;
         } else {
             label.textColor = _itemTitleColor;
         }
@@ -152,16 +161,6 @@ static const CGFloat kYSLIndicatorHeight = 3;
 }
 
 #pragma mark -- private
-
-// menu shadow
-- (void)setShadowView
-{
-    UIView *view = [[UIView alloc]init];
-    view.frame = CGRectMake(0, self.frame.size.height - 0.5, CGRectGetWidth(self.frame), 0.5);
-    view.backgroundColor = [UIColor lightGrayColor];
-    [self addSubview:view];
-}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];

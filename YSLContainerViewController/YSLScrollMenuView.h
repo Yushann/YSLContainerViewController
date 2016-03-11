@@ -27,7 +27,7 @@
 @property (nonatomic, strong) UIColor *itemSelectedTitleColor;
 @property (nonatomic, strong) UIColor *itemIndicatorColor;
 
-- (void)setShadowView;
+-(void)setIndicatorOnIndex:(NSInteger)index;
 
 - (void)setIndicatorViewFrameWithRatio:(CGFloat)ratio isNextItem:(BOOL)isNextItem toIndex:(NSInteger)toIndex;
 
