@@ -8,9 +8,9 @@
 
 #import "YSLScrollMenuView.h"
 
-static const CGFloat kYSLScrollMenuViewWidth  = 60;
-static const CGFloat kYSLScrollMenuViewMargin = 10;
+
 static const CGFloat kYSLIndicatorHeight = 3;
+static const CGFloat kYSLSeperateLineHeight = 20;
 
 @interface YSLScrollMenuView ()
 
@@ -99,7 +99,7 @@ static const CGFloat kYSLIndicatorHeight = 3;
                 CALayer *border = [CALayer layer];
                 border.backgroundColor = _itemTitleColor.CGColor;
                 
-                border.frame = CGRectMake(-(kYSLScrollMenuViewMargin/2), kYSLScrollMenuViewMargin, 1, itemView.frame.size.height - kYSLScrollMenuViewMargin *2);
+                border.frame = CGRectMake(-(kYSLScrollMenuViewMargin/2), (CGRectGetHeight(self.frame) - kYSLSeperateLineHeight)/2, 1, kYSLSeperateLineHeight);
                 [itemView.layer addSublayer:border];
             }
             

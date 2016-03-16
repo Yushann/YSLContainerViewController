@@ -83,7 +83,7 @@ static const CGFloat kYSLScrollMenuViewHeight = 40;
         }
     }
     // meunView
-    _menuView = [[YSLScrollMenuView alloc]initWithFrame:CGRectMake(0, _topBarHeight, self.view.frame.size.width, kYSLScrollMenuViewHeight)];
+    _menuView = [[YSLScrollMenuView alloc]initWithFrame:CGRectMake(0, _topBarHeight, (kYSLScrollMenuViewWidth + kYSLScrollMenuViewMargin) * _childControllers.count + 10, kYSLScrollMenuViewHeight)];
     _menuView.backgroundColor = [UIColor clearColor];
     _menuView.delegate = self;
     _menuView.viewbackgroudColor = self.menuBackGroudColor;

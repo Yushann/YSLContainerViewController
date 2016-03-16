@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+static const CGFloat kYSLScrollMenuViewWidth  = 51;
+static const CGFloat kYSLScrollMenuViewMargin = 10;
+
 @protocol YSLScrollMenuViewDelegate <NSObject>
 
 - (void)scrollMenuViewSelectedIndex:(NSInteger)index;
